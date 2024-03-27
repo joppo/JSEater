@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSEater", "JSEater\JSEater.csproj", "{29C87624-AF65-460A-83AF-3247B0B7C1CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSEater", "JSEater\JSEater.csproj", "{057658DD-D6CD-486A-B70B-CDAF1FF17242}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{29C87624-AF65-460A-83AF-3247B0B7C1CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29C87624-AF65-460A-83AF-3247B0B7C1CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29C87624-AF65-460A-83AF-3247B0B7C1CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29C87624-AF65-460A-83AF-3247B0B7C1CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{057658DD-D6CD-486A-B70B-CDAF1FF17242}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{057658DD-D6CD-486A-B70B-CDAF1FF17242}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{057658DD-D6CD-486A-B70B-CDAF1FF17242}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{057658DD-D6CD-486A-B70B-CDAF1FF17242}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {8905CC5F-B9FF-4407-A289-C375E0B31D55}
+		SolutionGuid = {545281C0-9B67-4061-B692-917FD5C439E6}
 	EndGlobalSection
 EndGlobal

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JSEater")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a1e0ffbdda765b546c3412ecebb8389678bc65d")]
 [assembly: System.Reflection.AssemblyProductAttribute("JSEater")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JSEater")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

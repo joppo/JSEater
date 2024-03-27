@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "JSEater": {
+      "commandName": "Project",
+      "commandLineArgs": "-ojs C:\\z\\p\\JSEater\\JSEater\\bin\\Debug\\net8.0\\outputfiles\r\n-f jsfiles.txt"
+    }
+  }
+}
