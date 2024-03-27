@@ -48,8 +48,8 @@ namespace JSEater
                 {
                     RegExPattern pattern = new RegExPattern
                     {
-                        Name = reg["name"].ToString(),
-                        RegEx = reg["regex"].ToString()
+                        Name = reg["name"] != null ? reg["name"].ToString() : string.Empty,
+                        RegEx = reg["regex"] != null ? reg["regex"].ToString() : string.Empty
                     };
 
                     Regex regex = new Regex(pattern.RegEx);
