@@ -2,7 +2,7 @@
   "profiles": {
     "JSEater": {
       "commandName": "Project",
-      "commandLineArgs": "-ojs C:\\z\\p\\JSEater\\JSEater\\bin\\Debug\\net8.0\\outputfiles\r\n-f jsfiles.txt"
+      "commandLineArgs": "-ojs C:\\z\\p\\JSEater\\JSEater\\bin\\Debug\\net8.0\\outputfiles\r\n-f Samples\\URLs.txt\r\n-v 0\r\n-jwt 0\r\n-potentialURLs 0"
     }
   }
 }

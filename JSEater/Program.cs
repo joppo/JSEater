@@ -19,23 +19,48 @@ namespace JSEater
             CheckMandatoryArguments(namedArguments);
             string urlFile = namedArguments["-f"];
             string outJSDir = namedArguments["-ojs"];
-            string pattern = namedArguments.ContainsKey("-p") ? namedArguments["-a"] : "patterns.json";
-            string resultsPath = namedArguments.ContainsKey("-o") ? namedArguments["-o"] : "matches.txt";
-            DownloadJSFiles(urlFile, outJSDir);
-            CheckFiles(pattern, outJSDir, resultsPath);
+            string pattern = namedArguments.ContainsKey("-p") ? namedArguments["-a"] : "Samples\\patterns.json";
+            string verbose = namedArguments.ContainsKey("-v") ? namedArguments["-v"] : "1";
+            string jwt = namedArguments.ContainsKey("-jwt") ? namedArguments["-jwt"] : "1";
+            string potentialURLs = namedArguments.ContainsKey("-potentialURLs") ? namedArguments["-potentialURLs"] : "1";
+            string resultsPath = namedArguments.ContainsKey("-o") ? namedArguments["-o"] : "matches" + Guid.NewGuid().ToString() + ".txt";
+            //DownloadJSFiles(urlFile, outJSDir);
+            CheckFiles(pattern, outJSDir, resultsPath, verbose, jwt, potentialURLs);
             Console.WriteLine("Complete.");
             Console.ReadLine();
         }
 
-        static void CheckFiles(string patternsPath, string outJSDir, string resultsPath)
+        static void CheckFiles(string patternsPath, string outJSDir, string resultsPath, string verbose, string jwt, string potentialURLs)
         {
             string json = File.ReadAllText(patternsPath);
             JsonNode node = JsonNode.Parse(json);
             JsonArray patterns = node["patterns"].AsArray();
+            List<RegExPattern> patternsList = new List<RegExPattern>();
+            foreach (JsonNode reg in patterns)
+            {
+                RegExPattern pattern = new RegExPattern
+                {
+                    Name = reg["name"] != null ? reg["name"].ToString() : string.Empty,
+                    RegEx = reg["regex"] != null ? reg["regex"].ToString() : string.Empty
+                };
+                patternsList.Add(pattern);
+            }
+
+            if (verbose == "0")
+                patternsList = patternsList.Where(e => !string.IsNullOrEmpty(e.Name)).ToList();
+
+            if (jwt == "0")
+                patternsList = patternsList.Where(e => e.Name != "JSON Web Token (JWT)").ToList();
+
+            if (potentialURLs == "0")
+                patternsList = patternsList.Where(e => e.Name != "Potential URLs").ToList();
 
             string[] files = Directory.GetFiles(outJSDir, @"*.js", SearchOption.TopDirectoryOnly);
+            Console.WriteLine("Preparing Patterns for matches");
+            int filecounter = 1;
             foreach (string f in files)
             {
+                Console.WriteLine("File:" + filecounter + " of " + files.Length);
                 using (var sw = new StreamWriter(resultsPath, true))
                 {
                     if (File.Exists(resultsPath))
@@ -44,14 +69,8 @@ namespace JSEater
                     }
                 }
                 string jsContents = File.ReadAllText(f);
-                foreach (JsonNode reg in patterns)
+                foreach (RegExPattern pattern in patternsList)
                 {
-                    RegExPattern pattern = new RegExPattern
-                    {
-                        Name = reg["name"] != null ? reg["name"].ToString() : string.Empty,
-                        RegEx = reg["regex"] != null ? reg["regex"].ToString() : string.Empty
-                    };
-
                     Regex regex = new Regex(pattern.RegEx);
                     MatchCollection matches = regex.Matches(jsContents);
                     using (var sw = new StreamWriter(resultsPath, true))
@@ -66,6 +85,7 @@ namespace JSEater
                         }
                     }
                 }
+                filecounter++;
             }
         }
 
@@ -84,6 +104,7 @@ namespace JSEater
         static void DownloadJSFiles(string urlFile, string outDir)
         {
             string[] readUrls = File.ReadAllLines(urlFile);
+            Directory.CreateDirectory(outDir);
             foreach (string url in readUrls)
             {
                 using (var client = new HttpClient())
