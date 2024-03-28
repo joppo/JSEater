@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.IO.Enumeration;
 
+
 namespace JSEater
 {
     internal class Program
@@ -19,19 +20,24 @@ namespace JSEater
             CheckMandatoryArguments(namedArguments);
             string urlFile = namedArguments["-f"];
             string outJSDir = namedArguments["-ojs"];
-            string pattern = namedArguments.ContainsKey("-p") ? namedArguments["-a"] : "Samples\\patterns.json";
+            string pattern = namedArguments.ContainsKey("-p") ? namedArguments["-p"] : "Samples\\patterns.json";
             string verbose = namedArguments.ContainsKey("-v") ? namedArguments["-v"] : "1";
             string jwt = namedArguments.ContainsKey("-jwt") ? namedArguments["-jwt"] : "1";
             string potentialURLs = namedArguments.ContainsKey("-potentialURLs") ? namedArguments["-potentialURLs"] : "1";
             string resultsPath = namedArguments.ContainsKey("-o") ? namedArguments["-o"] : "matches" + Guid.NewGuid().ToString() + ".txt";
-            //DownloadJSFiles(urlFile, outJSDir);
-            CheckFiles(pattern, outJSDir, resultsPath, verbose, jwt, potentialURLs);
+            string noping = namedArguments.ContainsKey("-noping") ? namedArguments["-noping"] : "0";
+            if (noping == "0")
+                DownloadJSFiles(urlFile, outJSDir);
+            BO.MatchResults matchResults = CheckFiles(pattern, outJSDir, resultsPath, verbose, jwt, potentialURLs);
+            Console.WriteLine("Total matches: " + matchResults.TotalMatches);
+            Console.WriteLine("Unique matches: " + matchResults.UniqueMatches);
             Console.WriteLine("Complete.");
-            Console.ReadLine();
         }
 
-        static void CheckFiles(string patternsPath, string outJSDir, string resultsPath, string verbose, string jwt, string potentialURLs)
+        static BO.MatchResults CheckFiles(string patternsPath, string outJSDir, string resultsPath, string verbose, string jwt, string potentialURLs)
         {
+            BO.MatchResults mr = new BO.MatchResults();
+            int total_matches = 0;
             string json = File.ReadAllText(patternsPath);
             JsonNode node = JsonNode.Parse(json);
             JsonArray patterns = node["patterns"].AsArray();
@@ -58,16 +64,11 @@ namespace JSEater
             string[] files = Directory.GetFiles(outJSDir, @"*.js", SearchOption.TopDirectoryOnly);
             Console.WriteLine("Preparing Patterns for matches");
             int filecounter = 1;
+            bool filename_recorded = false;
+            List<string> matchesHistory = new List<string>();
             foreach (string f in files)
             {
                 Console.WriteLine("File:" + filecounter + " of " + files.Length);
-                using (var sw = new StreamWriter(resultsPath, true))
-                {
-                    if (File.Exists(resultsPath))
-                    {
-                        sw.WriteLine("FileName: " + f);
-                    }
-                }
                 string jsContents = File.ReadAllText(f);
                 foreach (RegExPattern pattern in patternsList)
                 {
@@ -77,16 +78,31 @@ namespace JSEater
                     {
                         foreach (Match match in matches)
                         {
-                            sw.WriteLine(">>> " + pattern.Name);
-                            if (match.Value.Length > 256)
-                                sw.WriteLine("+++ " + match.Value.Substring(0, 255));
-                            else
-                                sw.WriteLine("+++ " + match.Value);
+                            mr.TotalMatches++;
+                            total_matches++;
+                            if (!matchesHistory.Contains(match.Value))
+                            {
+                                if (!filename_recorded)
+                                {
+                                    sw.WriteLine("FileName: " + f);
+                                    filename_recorded = true;
+                                }
+                                mr.UniqueMatches++;
+                                matchesHistory.Add(match.Value);
+                                sw.WriteLine(">>> " + pattern.Name);
+                                if (match.Value.Length > 256)
+                                    sw.WriteLine("+++ " + match.Value.Substring(0, 255));
+                                else
+                                    sw.WriteLine("+++ " + match.Value);
+                            }
                         }
                     }
                 }
+
+                filename_recorded = false;
                 filecounter++;
             }
+            return mr;
         }
 
         static void CheckMandatoryArguments(Dictionary<string, string> namedArgs)
@@ -109,14 +125,27 @@ namespace JSEater
             {
                 using (var client = new HttpClient())
                 {
-                    using (var s = client.GetStreamAsync(url))
+                    try
                     {
-                        string filename = Path.GetFileName(url);
-                        filename = filename.Insert(filename.ToLower().IndexOf(".js"), DateTime.Now.Millisecond.ToString());
-                        using (var fs = new FileStream(outDir + "\\" + filename, FileMode.OpenOrCreate))
+                        using (var s = client.GetStreamAsync(url))
                         {
-                            s.Result.CopyTo(fs);
+                            string filename = Path.GetFileName(url);
+                            filename = filename.Replace("?", "");
+                            if (filename.Length > 150)
+                                filename = filename.Substring(0, 149);
+                            if (!filename.EndsWith(".js"))
+                                filename = filename + ".js";
+                            filename = filename.Insert(filename.ToLower().IndexOf(".js"), DateTime.Now.Millisecond.ToString());
+                            using (var fs = new FileStream(outDir + "\\" + filename, FileMode.OpenOrCreate))
+                            {
+                                s.Result.CopyTo(fs);
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("url: " + url);
+                        Console.WriteLine(ex.Message);
                     }
                 }
             }

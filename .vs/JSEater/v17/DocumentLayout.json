@@ -11,6 +11,10 @@
       "RelativeMoniker": "D:0:0:{057658DD-D6CD-486A-B70B-CDAF1FF17242}|JSEater\\JSEater.csproj|solutionrelative:jseater\\jseater.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{057658DD-D6CD-486A-B70B-CDAF1FF17242}|JSEater\\JSEater.csproj|c:\\z\\p\\jseater\\jseater\\bo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{057658DD-D6CD-486A-B70B-CDAF1FF17242}|JSEater\\JSEater.csproj|solutionrelative:jseater\\bo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{057658DD-D6CD-486A-B70B-CDAF1FF17242}|JSEater\\JSEater.csproj|c:\\z\\p\\jseater\\jseater\\samples\\patterns.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{057658DD-D6CD-486A-B70B-CDAF1FF17242}|JSEater\\JSEater.csproj|solutionrelative:jseater\\samples\\patterns.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -30,19 +34,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Patterns.json",
-              "DocumentMoniker": "C:\\z\\p\\JSEater\\JSEater\\Samples\\Patterns.json",
-              "RelativeDocumentMoniker": "JSEater\\Samples\\Patterns.json",
-              "ToolTip": "C:\\z\\p\\JSEater\\JSEater\\Samples\\Patterns.json",
-              "RelativeToolTip": "JSEater\\Samples\\Patterns.json",
-              "ViewState": "AQIAANQAAAAAAAAAAAAqwO8AAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-03-27T21:26:22.838Z",
+              "Title": "BO.cs",
+              "DocumentMoniker": "C:\\z\\p\\JSEater\\JSEater\\BO.cs",
+              "RelativeDocumentMoniker": "JSEater\\BO.cs",
+              "ToolTip": "C:\\z\\p\\JSEater\\JSEater\\BO.cs",
+              "RelativeToolTip": "JSEater\\BO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-28T12:12:44.936Z",
               "EditorCaption": ""
             },
             {
@@ -53,14 +57,25 @@
               "RelativeDocumentMoniker": "JSEater\\Samples\\Patterns.json",
               "ToolTip": "C:\\z\\p\\JSEater\\JSEater\\Samples\\Patterns.json",
               "RelativeToolTip": "JSEater\\Samples\\Patterns.json",
-              "ViewState": "AQIAADQBAAAAAAAAAAAiwGABAAAmAAAA",
+              "ViewState": "AQIAAIwAAAAAAAAAAAAgwL0AAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-03-27T20:15:46.56Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-27T21:26:22.838Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "Patterns.json",
+              "DocumentMoniker": "C:\\z\\p\\JSEater\\JSEater\\Samples\\Patterns.json",
+              "RelativeDocumentMoniker": "JSEater\\Samples\\Patterns.json",
+              "ToolTip": "C:\\z\\p\\JSEater\\JSEater\\Samples\\Patterns.json",
+              "RelativeToolTip": "JSEater\\Samples\\Patterns.json",
+              "ViewState": "AQIAADABAAAAAAAAAAAiwFwBAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-03-27T20:15:46.56Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "RegExPattern.cs",
               "DocumentMoniker": "C:\\z\\p\\JSEater\\JSEater\\RegExPattern.cs",
               "RelativeDocumentMoniker": "JSEater\\RegExPattern.cs",
@@ -88,9 +103,9 @@
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\z\\p\\JSEater\\JSEater\\Program.cs",
               "RelativeDocumentMoniker": "JSEater\\Program.cs",
-              "ToolTip": "C:\\z\\p\\JSEater\\JSEater\\Program.cs*",
-              "RelativeToolTip": "JSEater\\Program.cs*",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABoAAAAOAAAA",
+              "ToolTip": "C:\\z\\p\\JSEater\\JSEater\\Program.cs",
+              "RelativeToolTip": "JSEater\\Program.cs",
+              "ViewState": "AQIAAGwAAAAAAAAAAAAAAIcAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-27T07:57:44.324Z",
               "EditorCaption": ""
