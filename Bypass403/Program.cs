@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System;
 using Microsoft.Win32.SafeHandles;
+using System.Net;
 
 namespace Bypass403
 {
@@ -10,12 +11,12 @@ namespace Bypass403
 
         public class RequestDefinition
         {
-            public string Url { get; set; }
-            public string HeaderName { get; set; }
-            public string HeaderValue { get; set; }
+            public required string Url { get; set; }
+            public string? HeaderName { get; set; }
+            public string? HeaderValue { get; set; }
         }
 
-        private static string SendReq(RequestDefinition req)
+        private static HttpStatusCode SendReq(RequestDefinition req)
         {
             HttpClient c = new HttpClient();
             //HttpClient req = new HttpClient(handler);
@@ -28,30 +29,11 @@ namespace Bypass403
 
             if (!string.IsNullOrEmpty(req.HeaderName) && !string.IsNullOrEmpty(req.HeaderValue))
                 reqMsg.Headers.Add(req.HeaderName, req.HeaderValue);
-            //reqMsg.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0");
-            //c.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Language", "en-US,en;q=0.5");
-            //reqMsg.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
-            //reqMsg.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
-            //reqMsg.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("br"));
             reqMsg.Headers.Referrer = new Uri(req.Url);
             reqMsg.Headers.Add("Origin", req.Url);
             HttpResponseMessage response = c.SendAsync(reqMsg).Result;
             string result = response.Content.ReadAsStringAsync().Result;
-            return response.StatusCode.ToString();
-            //using (var sw = new StreamWriter(resultsPath, true))
-            //{
-            //    if (File.Exists(resultsPath))
-            //    {
-            //        sw.WriteLine("FileName: " + f);
-            //    }
-            //}
-
-            using (StreamWriter file = new StreamWriter("log.txt", append: true))
-            {
-
-                file.WriteLine(DateTime.Now.ToString("yyyy - MM - dd HH: mm:ss") + "\tUser_Id:" + user_id.ToString() + " ::response:" + result);
-                Thread.Sleep(100);
-            }
+            return response.StatusCode;
         }
 
         static List<RequestDefinition> ConstructUrls(string[] urls, string word)
@@ -98,13 +80,23 @@ namespace Bypass403
             CheckMandatoryArguments(namedArguments);
             string urlFile = namedArguments["-f"];
             string word = namedArguments.ContainsKey("-w") ? namedArguments["-w"] : "";
-            string resultPath = namedArguments.ContainsKey("-o") ? namedArguments["-o"] : "";
+            string resultPath = namedArguments.ContainsKey("-o") ? namedArguments["-o"] : "response.txt";
 
             string[] readUrls = File.ReadAllLines(urlFile);
             List<RequestDefinition> constructed_reqs = ConstructUrls(readUrls, word);
+            foreach (RequestDefinition req in constructed_reqs)
+            {
+                HttpStatusCode code = SendReq(req);
+                if (code != System.Net.HttpStatusCode.Forbidden)
+                    using (StreamWriter file = new StreamWriter(resultPath, append: true))
+                    {
 
+                        file.WriteLine(DateTime.Now.ToString("yyyy - MM - dd HH: mm:ss") + "\tstatus:" + code.ToString() + " ::url:" + req.Url + " ::headername:" + (String.IsNullOrEmpty(req.HeaderName) ? string.Empty : req.HeaderName));
+                        Thread.Sleep(100);
+                    }
+            }
 
-            Console.WriteLine("asdasdads");
+            Console.WriteLine("Finished reqbypass");
         }
 
         static Dictionary<string, string> ParseNamedArguments(string[] args)
