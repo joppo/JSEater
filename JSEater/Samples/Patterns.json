@@ -17,6 +17,26 @@
 			"regex": "-----BEGIN RSA PRIVATE KEY-----"
 		},
 		{
+			"name": "AWS Secret Access Key",
+			"regex": "(?i)(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])"
+		},
+		{
+			"name": "Twitter Access Token",
+			"regex": "(?i)twitter.*[\"']?[0-9a-z]{35,44}[\"']?"
+		},
+		{
+			"name": "Git Hub Token",
+			"regex": "(?i)ghp_[0-9A-Za-z]{36}"
+		},
+		{
+			"name": "Linkedin client id",
+			"regex": "(?i)linkedin.*[\"']?[0-9a-z]{12}[\"']?"
+		},
+		{
+			"name": "Linkedin secret",
+			"regex": "(?i)linkedin.*[\"']?[0-9a-z]{16}[\"']?"
+		},
+		{
 			"name": "SSH (DSA) private key",
 			"regex": "-----BEGIN DSA PRIVATE KEY-----"
 		},
