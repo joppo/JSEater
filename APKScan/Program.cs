@@ -39,11 +39,13 @@ namespace APKScan
             {
                 Console.WriteLine("Preparing Patterns for matches");
                 int filecounter = 1;
-                bool filename_recorded = false;
                 List<string> matchesHistory = new List<string>();
                 
                 foreach (string filePath in Directory.GetFiles(directoryPath))
                 {
+                    bool filename_recorded = false;
+                    if (IsFileNonSource(filePath))
+                        continue;
                     Console.WriteLine($"Reading file: {filePath}");
 
                     string f = File.ReadAllText(filePath);
@@ -61,7 +63,7 @@ namespace APKScan
                                 {
                                     if (!filename_recorded)
                                     {
-                                        sw.WriteLine("FileName: " + f);
+                                        sw.WriteLine("FileName: " + filePath);
                                         filename_recorded = true;
                                     }
                                     mr.UniqueMatches++;
@@ -99,6 +101,27 @@ namespace APKScan
                 }
             }
         }
+
+        static bool IsFileNonSource(string path)
+        {
+            if (path.EndsWith("jpg") ||
+                path.EndsWith("jpeg") ||
+                path.EndsWith("svg") ||
+                path.EndsWith("png") ||
+                path.EndsWith("bmp") ||
+                path.EndsWith("ttf") || 
+                path.Contains(".svg")
+                                    //path.EndsWith("jpg") ||
+                                    //path.EndsWith("jpg") ||
+                                    //path.EndsWith("jpg") ||
+                                    //path.EndsWith("jpg") ||
+                                    //path.EndsWith("jpg"))
+                )
+                return true;
+            else
+                return false;
+        }
+
         static Dictionary<string, string> ParseNamedArguments(string[] args)
         {
             var namedArguments = new Dictionary<string, string>();
