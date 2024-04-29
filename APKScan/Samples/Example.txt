@@ -1,0 +1,1 @@
+APKScan.exe -i "C:\targets\apple" -o big6.txt -p patterns.json

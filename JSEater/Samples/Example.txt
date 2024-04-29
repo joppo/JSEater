@@ -1,0 +1,1 @@
+﻿JSEater.exe -ojs C:\z\h\tools\JSEater\JSEater\outputfiles\apple -f apple_urls.txt -o apple -v 1 -jwt 1 -potentialURLs 1
